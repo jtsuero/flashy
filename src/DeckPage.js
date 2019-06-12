@@ -26,12 +26,16 @@ class DeckPage extends Component {
 
   createCard = (event) => {
     event.preventDefault();
+    if(this.state.question === null) {
+      window.alert("You must add a question!");
+    } else if (this.state.answer === null) {
+      window.alert("You must add an answer!");
+    } else {
     const newCard = AppStore.createCard(this.state.question, this.state.answer);
-    // console.log(this.state.currentDeckId, newCard.id);
     AppStore.addCardToDeck(this.state.currentDeckId, newCard.id);
     let allCards = AppStore.getCards();
-    // console.log(AppStore.getDeck(this.state.currentDeckId));
     this.setState({allCards, newCard: true})
+    }
   }
 
   handleDeckSubmit = (event) => {
@@ -101,7 +105,7 @@ class DeckPage extends Component {
     } else if (this.state.viewDecks) {
       return(
       <div>
-          <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
+        <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
       </div>
       )
 
@@ -146,9 +150,9 @@ class DeckPage extends Component {
 
     return (
       <div className="App">
-          <div>
-            {this.renderDeckInput()}
-          </div>
+        <div>
+          {this.renderDeckInput()}
+        </div>
       </div>
 
     );
