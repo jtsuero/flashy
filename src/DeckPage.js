@@ -110,7 +110,7 @@ class DeckPage extends Component {
       return (
         <div>
           <input type="submit" name="submit" value="Create New Deck" onClick={() => {this.setState({newDeck: true})}} />
-          <input type="button" name="getDecks" value="Add to existing deck" onClick={() => {this.setState({existingDeck: true})}}/>
+          <input type="button" name="getDecks" value="Add to existing deck" onClick={() =>{this.setState({existingDeck: true})}}/>
           <input type='button' name='viewDecks' value='View all decks' onClick={() => {this.setState({viewDecks: true})} }/>
         </div>
       )

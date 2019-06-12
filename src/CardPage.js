@@ -3,23 +3,13 @@ import AppStore from './AppStore.js';
 import CardPrinter from './CardPrinter.js'
 
 class CardPage extends Component {
-  constructor() {
-    super()
-    this.state = {
-      cards: null,
-    }
 
-  }
-
-  getDeckIds = (card) => {
-  console.log(card, "from CardPage");
+  getDeckIds = (cardId) => {
     for (let key in AppStore.decks) {
-      const decks = AppStore.getCardsFromDeck(1);
+      const decks = AppStore.getCardsFromDeck(key);
       console.log(decks);
       for(let i=0; i<decks.length; i++) {
-        if(card.id === decks[i]) {
-          console.log(card.id);
-          console.log(decks[i]);
+        if(cardId.id === decks[i]) {
         }
       }
     }
@@ -27,14 +17,14 @@ class CardPage extends Component {
 
   getCards = () => {
     let cards = AppStore.getCards();
-    this.setState({cards});
+    return cards;
   }
 
   render() {
-  console.log(AppStore.decks.name);
+
     return (
       <div>
-        <CardPrinter cards={AppStore.getCards()} deckId={this.getDeckIds} />
+        <CardPrinter cards={this.getCards()} />
       </div>
     )
   }

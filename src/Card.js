@@ -4,6 +4,7 @@ class Card  {
       this.id = id;
       this.question = question;
       this.answer = answer;
+      this.decks = [];
   }
 
 

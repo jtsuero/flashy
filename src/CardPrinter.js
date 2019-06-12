@@ -9,16 +9,20 @@ class CardPrinter extends Component {
   }
 
   renderCards = (card) => {
-
     return(
       <div key={card.id} className='card'>
         Question: {card.question}
-      <div className='card-answer'>
-        Answer: {card.answer}
-      </div>
-      {this.props.(card.id)}
+        <div className='card-answer'>Answer:{card.answer}</div>
+        <div>{this.renderDeckNames(card.decks)}</div>
       </div>
     );
+  }
+
+  renderDeckNames = (deckName) => {
+    return(
+      <div>#{deckName}</div>
+    )
+
   }
 
 

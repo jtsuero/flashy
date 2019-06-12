@@ -26,6 +26,10 @@ class AppStore {
       cards.push(this.getCard(cardId));
     }
     return cards;
+  }
+
+  getDeckName = (deckId) => {
+    return this.decks[deckId].name;
 
   }
 
@@ -55,10 +59,10 @@ class AppStore {
 
   addCardToDeck = (deckId, cardId) => {
     this.decks[deckId].cardIds.push(this.cards[cardId]);
+    this.cards[cardId].decks.push(this.getDeckName(deckId));
   }
 
   getDeck = (deckId) => {
-  console.log(this.decks[deckId], 'from getDeck')
     return this.decks[deckId];
   }
 
@@ -71,6 +75,10 @@ class AppStore {
 
     }
     return deckNames;
+  }
+
+  getDeckName = (deckId) => {
+    return this.decks[deckId].name
   }
 
   getDecks = () => {
