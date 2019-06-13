@@ -43,9 +43,11 @@ class DeckPage extends Component {
     if(this.state.deckName === null) {
       window.alert("You must name your deck!");
     } else {
-      const newDeck = AppStore.createDeck(this.state.deckName);
-      let allDecks = AppStore.getDecks();
-      this.setState({allDecks, currentDeckId: newDeck.id, currentDeckName: newDeck.name})
+      if(AppStore.checkDeckName(this.state.deckName)) {
+        const newDeck = AppStore.createDeck(this.state.deckName);
+        let allDecks = AppStore.getDecks();
+        this.setState({allDecks, currentDeckId: newDeck.id, currentDeckName: newDeck.name})
+      }
     }
   }
 

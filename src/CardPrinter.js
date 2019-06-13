@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import '@fortawesome/fontawesome-free/css/all.css'
 
 class CardPrinter extends Component {
   constructor() {
-  super()
+    super()
     this.state = {
       front: true,
     }
@@ -14,6 +15,7 @@ class CardPrinter extends Component {
         Question: {card.question}
         <div className='card-answer'>Answer:{card.answer}</div>
         <div>{this.renderDeckNames(card.decks)}</div>
+        <i className="fa fa-plus" onClick={this.props.displayDecks}></i>
       </div>
     );
   }

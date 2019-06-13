@@ -49,17 +49,28 @@ class AppStore {
     return cardStack;
   }
 
-  createDeck = (name) => {
-    let newDeck = new Deck(this.nextDeckId, name);
-    this.decks[this.nextDeckId] = newDeck;
-    this.nextDeckId += 1;
-    return newDeck;
+  checkDeckName = (name) => {
+    const keys = Object.keys(this.decks);
+    for(let i = 0; i<keys.length; i++) {
+      console.log(keys[i]);
+      if(this.getDeckName(keys[i])=== name) {
+        window.alert("That deck already exists!");
+        return false;
+      }
+    }
+    return true;
+  }
 
+  createDeck = (name) => {
+      let newDeck = new Deck(this.nextDeckId, name);
+      this.decks[this.nextDeckId] = newDeck;
+      this.nextDeckId += 1;
+      return newDeck;
   }
 
   addCardToDeck = (deckId, cardId) => {
     this.decks[deckId].cardIds.push(this.cards[cardId]);
-    this.cards[cardId].decks.push(this.getDeckName(deckId));
+    this.cards[cardId].decks.push(deckId);
   }
 
   getDeck = (deckId) => {
@@ -75,10 +86,6 @@ class AppStore {
 
     }
     return deckNames;
-  }
-
-  getDeckName = (deckId) => {
-    return this.decks[deckId].name
   }
 
   getDecks = () => {

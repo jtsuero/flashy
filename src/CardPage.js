@@ -1,32 +1,48 @@
 import React, { Component } from 'react';
 import AppStore from './AppStore.js';
-import CardPrinter from './CardPrinter.js'
+import CardPrinter from './CardPrinter.js';
+import DeckPrinter from './DeckPrinter.js';
 
 class CardPage extends Component {
+  constructor() {
+    super()
+    this.state = {
+      showDecks: false,
 
-  getDeckIds = (cardId) => {
-    for (let key in AppStore.decks) {
-      const decks = AppStore.getCardsFromDeck(key);
-      console.log(decks);
-      for(let i=0; i<decks.length; i++) {
-        if(cardId.id === decks[i]) {
-        }
-      }
     }
   }
+
 
   getCards = () => {
     let cards = AppStore.getCards();
     return cards;
   }
 
+  displayDecks = () => {
+    console.log("test");
+    this.setState({showDecks: true})
+
+  }
+
   render() {
 
+  if(this.state.showDecks) {
+    return(
+      <DeckPrinter decks={AppStore.getDecks()} /> //fix method send to deckPrinter, might have to add new one
+    )
+
+  } else {
     return (
       <div>
-        <CardPrinter cards={this.getCards()} />
+        <div>
+          <CardPrinter cards={AppStore.getCards()} displayDecks={this.displayDecks} /> {/* or does this need to be this.getCards?*/}
+        </div>
+        <div>
+          test {/*add inline style, hidden until clicked,*/}
+        </div>
       </div>
     )
+  }
   }
 }
 
