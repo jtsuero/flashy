@@ -8,9 +8,9 @@ function Home() {
   return(
   <Router>
     <div>
-    <Switch>
-    <Link to={'/decks'}>Decks</Link>
-    </Switch>
+      <Switch>
+        <Link to={'/decks'}>Decks</Link>
+      </Switch>
     </div>
   </Router>
   );

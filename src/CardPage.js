@@ -33,10 +33,8 @@ class CardPage extends Component {
 
   } else {
     return (
-      <div>
-        <div>
-          <CardPrinter cards={AppStore.getCards()} displayDecks={this.displayDecks} /> {/* or does this need to be this.getCards?*/}
-        </div>
+      <div className='card-page'>
+        <CardPrinter cards={AppStore.getCards()} displayDecks={this.displayDecks} /> {/* or does this need to be this.getCards?*/}
         <div>
           test {/*add inline style, hidden until clicked,*/}
         </div>
