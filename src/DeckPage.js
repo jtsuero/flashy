@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import AppStore from './AppStore.js';
 import DeckPrinter from './DeckPrinter.js';
-import { Link } from 'react-router-dom';
+import CardPrinter from './CardPrinter.js';
 
 class DeckPage extends Component {
   constructor() {
@@ -13,15 +13,18 @@ class DeckPage extends Component {
       deckName: null,
       allCards: null,
       allDecks: null,
+      addingCards: false,
       currentDeckId: null,
       currentDeckName: null,
       viewDeck: false,
+      viewCards: false,
       newDeck: false,
       existingDeck: false,
       cardsDisplayed: true, //check if needed when fully functional
       newCard: false,
       deck: []
     };
+
   }
 
   createCard = (event) => {
@@ -46,7 +49,7 @@ class DeckPage extends Component {
       if(AppStore.checkDeckName(this.state.deckName)) {
         const newDeck = AppStore.createDeck(this.state.deckName);
         let allDecks = AppStore.getDecks();
-        this.setState({allDecks, currentDeckId: newDeck.id, currentDeckName: newDeck.name})
+        this.setState({allDecks, currentDeckId: newDeck.id, currentDeckName: newDeck.name, addingCards: true})
       }
     }
   }
@@ -65,7 +68,9 @@ class DeckPage extends Component {
   }
 
   chooseDeck = (currentDeck) => {
-    this.setState({currentDeckId: currentDeck.id, currentDeckName: currentDeck.name})
+    console.log("test");
+      console.log(this.state);
+    this.setState({currentDeckId: currentDeck.id, currentDeckName: currentDeck.name, viewDeck: true})
   }
 
   handleQuestion = (event) => {
@@ -80,44 +85,42 @@ class DeckPage extends Component {
     this.setState({deckName: event.target.value});
   }
 
-  renderDeckInput = () => {
-    if(this.state.currentDeckId !== null) {
+  renderDeckPage = () => {
+    if(this.state.addingCards) {
+      console.log("here");
       return(
       <div>
         Adding Cards to:
         {this.state.currentDeckName}
         {this.renderCardInput()}
+        <CardPrinter cards={AppStore.getCards()} deleteCard={AppStore.deleteCard} />
+      </div>
+      )
+    } else if(this.state.viewCards) {
+      return(
+        <CardPrinter cards={AppStore.getCards()} deleteCard={AppStore.deleteCard} />
+      )
+    } else if(this.state.viewDeck) {
+      return(
+      <div>
+        <input type='button' value='Add Cards' onClick={() => {this.setState({addingCards: true})}} />
+        <CardPrinter cards={AppStore.getCards()} deleteCard={AppStore.deleteCard} />
       </div>
       )
     } else if(this.state.newDeck) {
       return (
         <div>
           <form onSubmit = {this.handleDeckSubmit}>
-            <input type="textarea" name="name" onChange={this.handleDeckName} />
-            <input type="submit" name="submit" value="Create Deck" />
+            <input type='textarea' name='name' onChange={this.handleDeckName} />
+            <input type='submit' name='submit' value='Create Deck' />
           </form>
         </div>
       )
-    } else if(this.state.existingDeck) {
-      return(
-        <div>
-          <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
-        </div>
-      );
-    } else if (this.state.viewDecks) {
-      return(
-      <div>
-        <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
-      </div>
-      )
-
-
     } else {
       return (
         <div>
           <input type="submit" name="submit" value="Create New Deck" onClick={() => {this.setState({newDeck: true})}} />
-          <input type="button" name="getDecks" value="Add to existing deck" onClick={() =>{this.setState({existingDeck: true})}}/>
-          <input type='button' name='viewDecks' value='View all decks' onClick={() => {this.setState({viewDecks: true})} }/>
+          <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
         </div>
       )
     }
@@ -140,7 +143,6 @@ class DeckPage extends Component {
         <form onSubmit={this.createCard}>
           {this.cardInput()}
           <input type="submit" name="submit" />
-          <input type="button" name="viewCards" value="View Cards" onClick={this.getCards} />
         </form>
         <br />
       </div>
@@ -149,11 +151,10 @@ class DeckPage extends Component {
   }
 
   render() {
-
     return (
       <div className="App">
         <div>
-          {this.renderDeckInput()}
+          {this.renderDeckPage()}
         </div>
       </div>
 
