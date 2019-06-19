@@ -40,10 +40,9 @@ nav {
 }
 
 .card {
-  align-items: center;
   border: 10px solid black;
-  padding: 20px;
-  margin: 20px;
+  padding: 30px;
+  margin: 20px auto;
   width: 30%;
 }
 
@@ -57,9 +56,10 @@ nav {
 }
 
 .deck-links {
-  color: blue;
-  list-style: none;
+  color: green;
+  border: 5px solid black;
+  width: 20%;
+  padding: 20px;
+  margin: 50px auto;
 }
 
-.card-page {
-}
