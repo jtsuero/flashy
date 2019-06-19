@@ -73,6 +73,12 @@ class AppStore {
     this.cards[cardId].decks.push(deckId);
   }
 
+  deleteCard = (cardId) => {
+    console.log("test delete!");
+    console.log(this.cards[cardId]);
+    return delete this.cards[cardId];
+  }
+
   getDeck = (deckId) => {
     return this.decks[deckId];
   }

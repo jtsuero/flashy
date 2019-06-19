@@ -50,6 +50,10 @@ nav {
   visibility: visible;
 }
 
+.card:hover .delete-button {
+  visibility: visible;
+}
+
 .card-answer {
   visibility: hidden;
   color: green;
@@ -63,3 +67,13 @@ nav {
   margin: 50px auto;
 }
 
+.delete-button {
+  visibility: hidden;
+  display: inline-block;
+  margin-left: 500px;
+}
+
+.delete-button:hover {
+  color: red;
+  right: 100px;
+}

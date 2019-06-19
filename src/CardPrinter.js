@@ -12,19 +12,15 @@ class CardPrinter extends Component {
   renderCards = (card) => {
     return(
       <div key={card.id} className='card'>
-        Question: {card.question}
+        <div>
+          Question: {card.question}
+        </div>
+        <div className='delete-button'>
+          <i className="fas fa-trash-alt" onClick={() => this.props.deleteCard(card.id)}></i>
+        </div>
         <div className='card-answer'>Answer:{card.answer}</div>
-        <div>{this.renderDeckNames(card.decks)}</div>
-        <i className="fa fa-plus" onClick={this.props.displayDecks}></i>
       </div>
     );
-  }
-
-  renderDeckNames = (deckName) => {
-    return(
-      <div>#{deckName}</div>
-    )
-
   }
 
 
