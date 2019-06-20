@@ -22,6 +22,7 @@ class DeckPage extends Component {
       existingDeck: false,
       cardsDisplayed: true, //check if needed when fully functional
       newCard: false,
+      quiz: false,
       deck: []
     };
 
@@ -148,8 +149,9 @@ class DeckPage extends Component {
       <div>
         <form onSubmit={this.createCard}>
           {this.cardInput()}
-          <input type="submit" name="submit" />
+          <input type='submit' name='submit' />
         </form>
+        <input type='button' value='Done' onClick={() => {this.setState({addingCards: false, newDeck: false})}} />
         <br />
       </div>
 
