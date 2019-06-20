@@ -76,7 +76,7 @@ class AppStore {
   deleteCard = (cardId) => {
     console.log("test delete!");
     console.log(this.cards[cardId]);
-    return delete this.cards[cardId];
+    delete this.cards[cardId];
   }
 
   getDeck = (deckId) => {

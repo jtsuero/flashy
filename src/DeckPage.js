@@ -85,6 +85,11 @@ class DeckPage extends Component {
     this.setState({deckName: event.target.value});
   }
 
+  deleteCard = (cardId) => {
+    AppStore.deleteCard(cardId);
+    this.setState(AppStore.getCards());
+  }
+
   renderDeckPage = () => {
     if(this.state.addingCards) {
       console.log("here");
@@ -93,18 +98,19 @@ class DeckPage extends Component {
         Adding Cards to:
         {this.state.currentDeckName}
         {this.renderCardInput()}
-        <CardPrinter cards={AppStore.getCards()} deleteCard={AppStore.deleteCard} />
+        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
       </div>
       )
     } else if(this.state.viewCards) {
       return(
-        <CardPrinter cards={AppStore.getCards()} deleteCard={AppStore.deleteCard} />
+        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
       )
     } else if(this.state.viewDeck) {
       return(
       <div>
         <input type='button' value='Add Cards' onClick={() => {this.setState({addingCards: true})}} />
-        <CardPrinter cards={AppStore.getCards()} deleteCard={AppStore.deleteCard} />
+        <input type='button' value='Quiz' onClick={() => {this.setState({quiz: true})}} />
+        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
       </div>
       )
     } else if(this.state.newDeck) {
