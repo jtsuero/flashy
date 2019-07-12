@@ -50,13 +50,24 @@ nav {
   visibility: visible;
 }
 
+.card-answer {
+  visibility: hidden;
+  color: green;
+}
+
 .card:hover .delete-button {
   visibility: visible;
 }
 
-.card-answer {
+.delete-button {
   visibility: hidden;
-  color: green;
+  float: right;
+  position: absolute;
+  margin-left: 500px;
+}
+
+.delete-button:hover {
+  color: red;
 }
 
 .deck-links {
@@ -65,17 +76,6 @@ nav {
   width: 20%;
   padding: 20px;
   margin: 50px auto;
-}
-
-.delete-button {
-  visibility: hidden;
-  display: inline-block;
-  margin-left: 500px;
-}
-
-.delete-button:hover {
-  color: red;
-  right: 100px;
 }
 
 .deck-amount {
