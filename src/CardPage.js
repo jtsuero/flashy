@@ -19,9 +19,7 @@ class CardPage extends Component {
   }
 
   displayDecks = () => {
-    console.log("test");
     this.setState({showDecks: true})
-
   }
 
   render() {

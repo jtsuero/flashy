@@ -9,7 +9,7 @@ class CardPrinter extends Component {
     }
   }
 
-  renderCards = (card) => {
+  renderCard = (card) => {
     return(
       <div key={card.id} className='card'>
         <div>
@@ -28,7 +28,7 @@ class CardPrinter extends Component {
     let cards = this.props.cards;
     let displayCards = [];
     if(cards !== null) {
-      displayCards = cards.map(this.renderCards);
+      displayCards = cards.map(this.renderCard);
     }
     return(
       <div>

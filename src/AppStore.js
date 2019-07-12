@@ -52,7 +52,6 @@ class AppStore {
   checkDeckName = (name) => {
     const keys = Object.keys(this.decks);
     for(let i = 0; i<keys.length; i++) {
-      console.log(keys[i]);
       if(this.getDeckName(keys[i])=== name) {
         window.alert("That deck already exists!");
         return false;
@@ -74,8 +73,6 @@ class AppStore {
   }
 
   deleteCard = (cardId) => {
-    console.log("test delete!");
-    console.log(this.cards[cardId]);
     delete this.cards[cardId];
   }
 
