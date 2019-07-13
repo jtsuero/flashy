@@ -7,12 +7,11 @@ class DeckPrinter extends Component {
 
   printDeck(deck) {
     return (
-      <div key={deck.id}>
-      <ul>
-      <li onClick={() => this.props.chooseDeck(deck)} className='deck-links'>
+      <div key={deck.id} onClick={() => this.props.chooseDeck(deck)} className='deck-links'>
         {deck.name}
-      </li>
-      </ul>
+        <div className='deck-amount'>
+          Cards in deck: {deck.cardIds.length}
+        </div>
       </div>
     );
   }
@@ -21,7 +20,6 @@ class DeckPrinter extends Component {
     let decks = this.props.decks.map(this.printDeck.bind(this))
     return (
       <div>
-      Decks:
         {decks}
       </div>
     )

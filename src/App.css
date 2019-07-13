@@ -40,10 +40,9 @@ nav {
 }
 
 .card {
-  align-items: center;
   border: 10px solid black;
-  padding: 20px;
-  margin: 20px;
+  padding: 30px;
+  margin: 20px auto;
   width: 30%;
 }
 
@@ -56,7 +55,29 @@ nav {
   color: green;
 }
 
+.card:hover .delete-button {
+  visibility: visible;
+}
+
+.delete-button {
+  visibility: hidden;
+  float: right;
+  position: absolute;
+  margin-left: 500px;
+}
+
+.delete-button:hover {
+  color: red;
+}
+
 .deck-links {
-  color: blue;
-  list-style: none;
+  color: green;
+  border: 5px solid black;
+  width: 20%;
+  padding: 20px;
+  margin: 50px auto;
+}
+
+.deck-amount {
+  color: black;
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import AppStore from './AppStore.js';
 import DeckPrinter from './DeckPrinter.js';
-import { Link } from 'react-router-dom';
+import CardPrinter from './CardPrinter.js';
 
 class DeckPage extends Component {
   constructor() {
@@ -13,25 +13,33 @@ class DeckPage extends Component {
       deckName: null,
       allCards: null,
       allDecks: null,
+      addingCards: false,
       currentDeckId: null,
       currentDeckName: null,
       viewDeck: false,
+      viewCards: false,
       newDeck: false,
       existingDeck: false,
       cardsDisplayed: true, //check if needed when fully functional
       newCard: false,
+      quiz: false,
       deck: []
     };
+
   }
 
   createCard = (event) => {
     event.preventDefault();
+    if(this.state.question === null) {
+      window.alert("You must add a question!");
+    } else if (this.state.answer === null) {
+      window.alert("You must add an answer!");
+    } else {
     const newCard = AppStore.createCard(this.state.question, this.state.answer);
-    // console.log(this.state.currentDeckId, newCard.id);
     AppStore.addCardToDeck(this.state.currentDeckId, newCard.id);
     let allCards = AppStore.getCards();
-    // console.log(AppStore.getDeck(this.state.currentDeckId));
     this.setState({allCards, newCard: true})
+    }
   }
 
   handleDeckSubmit = (event) => {
@@ -39,9 +47,11 @@ class DeckPage extends Component {
     if(this.state.deckName === null) {
       window.alert("You must name your deck!");
     } else {
-      const newDeck = AppStore.createDeck(this.state.deckName);
-      let allDecks = AppStore.getDecks();
-      this.setState({allDecks, currentDeckId: newDeck.id, currentDeckName: newDeck.name})
+      if(AppStore.checkDeckName(this.state.deckName)) {
+        const newDeck = AppStore.createDeck(this.state.deckName);
+        let allDecks = AppStore.getDecks();
+        this.setState({allDecks, currentDeckId: newDeck.id, currentDeckName: newDeck.name, addingCards: true})
+      }
     }
   }
 
@@ -59,7 +69,9 @@ class DeckPage extends Component {
   }
 
   chooseDeck = (currentDeck) => {
-    this.setState({currentDeckId: currentDeck.id, currentDeckName: currentDeck.name})
+    console.log("test");
+      console.log(this.state);
+    this.setState({currentDeckId: currentDeck.id, currentDeckName: currentDeck.name, viewDeck: true})
   }
 
   handleQuestion = (event) => {
@@ -74,44 +86,48 @@ class DeckPage extends Component {
     this.setState({deckName: event.target.value});
   }
 
-  renderDeckInput = () => {
-    if(this.state.currentDeckId !== null) {
+  deleteCard = (cardId) => {
+    AppStore.deleteCard(cardId);
+    this.setState(AppStore.getCards());
+  }
+
+  renderDeckPage = () => {
+    if(this.state.addingCards) {
+      console.log("here");
       return(
       <div>
         Adding Cards to:
         {this.state.currentDeckName}
         {this.renderCardInput()}
+        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
+      </div>
+      )
+    } else if(this.state.viewCards) {
+      return(
+        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
+      )
+    } else if(this.state.viewDeck) {
+      return(
+      <div>
+        <input type='button' value='Add Cards' onClick={() => {this.setState({addingCards: true})}} />
+        <input type='button' value='Quiz' onClick={() => {this.setState({quiz: true})}} />
+        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
       </div>
       )
     } else if(this.state.newDeck) {
       return (
         <div>
           <form onSubmit = {this.handleDeckSubmit}>
-            <input type="textarea" name="name" onChange={this.handleDeckName} />
-            <input type="submit" name="submit" value="Create Deck" />
+            <input type='textarea' name='name' onChange={this.handleDeckName} />
+            <input type='submit' name='submit' value='Create Deck' />
           </form>
         </div>
       )
-    } else if(this.state.existingDeck) {
-      return(
-        <div>
-          <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
-        </div>
-      );
-    } else if (this.state.viewDecks) {
-      return(
-      <div>
-          <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
-      </div>
-      )
-
-
     } else {
       return (
         <div>
           <input type="submit" name="submit" value="Create New Deck" onClick={() => {this.setState({newDeck: true})}} />
-          <input type="button" name="getDecks" value="Add to existing deck" onClick={() => {this.setState({existingDeck: true})}}/>
-          <input type='button' name='viewDecks' value='View all decks' onClick={() => {this.setState({viewDecks: true})} }/>
+          <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
         </div>
       )
     }
@@ -133,9 +149,9 @@ class DeckPage extends Component {
       <div>
         <form onSubmit={this.createCard}>
           {this.cardInput()}
-          <input type="submit" name="submit" />
-          <input type="button" name="viewCards" value="View Cards" onClick={this.getCards} />
+          <input type='submit' name='submit' />
         </form>
+        <input type='button' value='Done' onClick={() => {this.setState({addingCards: false, newDeck: false})}} />
         <br />
       </div>
 
@@ -143,12 +159,11 @@ class DeckPage extends Component {
   }
 
   render() {
-
     return (
       <div className="App">
-          <div>
-            {this.renderDeckInput()}
-          </div>
+        <div>
+          {this.renderDeckPage()}
+        </div>
       </div>
 
     );

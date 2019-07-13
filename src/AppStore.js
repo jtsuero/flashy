@@ -3,7 +3,7 @@ import Deck from './Deck.js';
 
 class AppStore {
   constructor() {
-    this.decks = {};
+    this.deckIds = {};
     this.cards = {};
     this.nextCardId = 1;
     this.nextDeckId = 1;
@@ -26,6 +26,10 @@ class AppStore {
       cards.push(this.getCard(cardId));
     }
     return cards;
+  }
+
+  getDeckName = (deckId) => {
+    return this.deckIds[deckId].name;
 
   }
 
@@ -45,25 +49,39 @@ class AppStore {
     return cardStack;
   }
 
-  createDeck = (name) => {
-    let newDeck = new Deck(this.nextDeckId, name);
-    this.decks[this.nextDeckId] = newDeck;
-    this.nextDeckId += 1;
-    return newDeck;
+  checkDeckName = (name) => {
+    const keys = Object.keys(this.deckIds);
+    for(let i = 0; i<keys.length; i++) {
+      if(this.getDeckName(keys[i])=== name) {
+        window.alert("That deck already exists!");
+        return false;
+      }
+    }
+    return true;
+  }
 
+  createDeck = (name) => {
+      let newDeck = new Deck(this.nextDeckId, name);
+      this.deckIds[this.nextDeckId] = newDeck;
+      this.nextDeckId += 1;
+      return newDeck;
   }
 
   addCardToDeck = (deckId, cardId) => {
-    this.decks[deckId].cardIds.push(this.cards[cardId]);
+    this.deckIds[deckId].cardIds.push(this.cards[cardId]);
+    this.cards[cardId].deckIds.push(deckId);
+  }
+
+  deleteCard = (cardId) => {
+    delete this.cards[cardId];
   }
 
   getDeck = (deckId) => {
-  console.log(this.decks[deckId], 'from getDeck')
-    return this.decks[deckId];
+    return this.deckIds[deckId];
   }
 
   getDeckNames = () => {
-    const keys = Object.keys(this.decks);
+    const keys = Object.keys(this.deckIds);
     let deckNames = [];
     for(let i = 0; i < keys.length; i++) {
       let deckName = this.getDeck(keys[i]).name;
@@ -74,7 +92,7 @@ class AppStore {
   }
 
   getDecks = () => {
-    const keys = Object.keys(this.decks);
+    const keys = Object.keys(this.deckIds);
     let deckStack = [];
     for(let i = 0; i < keys.length; i++) {
       let deck = this.getDeck(keys[i]);
