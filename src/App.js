@@ -3,7 +3,7 @@ import './App.css';
 import Nav from './Nav.js';
 import Home from './Home.js';
 import DeckPage from './DeckPage.js';
-import CardPage from './CardPage.js';
+import Quiz from './Quiz.js';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -23,13 +23,11 @@ class App extends Component {
           <Switch>
             <Route path='/' exact component={Home} />
             <Route path='/decks' component={DeckPage} />
-            <Route path='/cards' component={CardPage} />
+            <Route path='/quiz/:deckId' component={Quiz} />
           </Switch>
         </div>
       </Router>
-
       );
-
      }
 }
 

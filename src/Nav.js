@@ -12,9 +12,6 @@ function Nav() {
         <Link to='/decks' className='nav-links'>
           <li>Decks</li>
         </Link>
-        <Link to='/cards' className='nav-links'>
-          <li>Cards</li>
-        </Link>
       </ul>
     </nav>
   );
