@@ -25,7 +25,6 @@ class DeckPage extends Component {
       quiz: false,
       deck: []
     };
-
   }
 
   createCard = (event) => {
@@ -69,8 +68,6 @@ class DeckPage extends Component {
   }
 
   chooseDeck = (currentDeck) => {
-    console.log("test");
-      console.log(this.state);
     this.setState({currentDeckId: currentDeck.id, currentDeckName: currentDeck.name, viewDeck: true})
   }
 
@@ -93,7 +90,6 @@ class DeckPage extends Component {
 
   renderDeckPage = () => {
     if(this.state.addingCards) {
-      console.log("here");
       return(
       <div>
         Adding Cards to:

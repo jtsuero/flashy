@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 class DeckPrinter extends Component {
-  constructor(props) {
-    super()
-  }
 
   printDeck(deck) {
     return (
