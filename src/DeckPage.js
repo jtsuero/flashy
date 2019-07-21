@@ -3,6 +3,7 @@ import './App.css';
 import AppStore from './AppStore.js';
 import DeckPrinter from './DeckPrinter.js';
 import CardPrinter from './CardPrinter.js';
+import { Link } from 'react-router-dom';
 
 class DeckPage extends Component {
   constructor() {
@@ -106,7 +107,9 @@ class DeckPage extends Component {
       return(
       <div>
         <input type='button' value='Add Cards' onClick={() => {this.setState({addingCards: true})}} />
-        <input type='button' value='Quiz' onClick={() => {this.setState({quiz: true})}} />
+        <Link to={`quiz/${this.state.currentDeckId}`}>
+          <button>Quiz!</button>
+        </Link>
         <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
       </div>
       )
