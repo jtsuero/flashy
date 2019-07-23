@@ -6,7 +6,8 @@ class Quiz extends Component {
     super()
     this.state = {
       cards: null,
-      quizAnswer: null,
+      answerText: "",
+      correctAnswers: 0,
       currentCardIndex: -1
     }
   }
@@ -30,22 +31,20 @@ class Quiz extends Component {
 
   handleAnswerSubmit = (event) => {
     event.preventDefault();
-    if(this.state.quizAnswer === null) {
+    if(this.state.answerText === "") {
       window.alert("You must give an answer!");
     } else {
-      if(this.getCurrentCard().answer === (this.state.quizAnswer)) {
-        console.log("correct!");
-      } else {
-        console.log("false...");
+      if(this.getCurrentCard().answer === (this.state.answerText)) {
+        const correctAnswers = this.state.correctAnswers + 1;
+        this.setState({correctAnswers});
       }
     const currentCardIndex = this.state.currentCardIndex + 1;
-    this.setState({currentCardIndex, quizAnswer:""});
-    //change to answerText
+    this.setState({currentCardIndex, answerText:""});
     }
   }
 
   handleQuizAnswer = (event) => {
-    this.setState({quizAnswer: event.target.value});
+    this.setState({answerText: event.target.value});
   }
 
 //create quiz by having question show, blank input where you enter the supposed answer
@@ -61,17 +60,16 @@ class Quiz extends Component {
       if(this.isQuizFinished()) {
         return (
         <div>
-          Done! You suck
+          You got {this.state.correctAnswers} out of {this.state.cards.length} correct!
         </div>
         )
       }
-//add percentage method
       const card = this.getCurrentCard();
       return(
         <div>
           <form onSubmit = {this.handleAnswerSubmit}>
             Question: {card.question}
-            <input type='textarea' name='name' onChange={this.handleQuizAnswer} value={this.state.quizAnswer} />
+            <input type='textarea' name='name' onChange={this.handleQuizAnswer} value={this.state.answerText} />
             <input type='submit' name='submit' value='Check Answer' />
           </form>
         </div>
