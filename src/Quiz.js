@@ -42,7 +42,7 @@ class Quiz extends Component {
     } else {
       if(this.getCurrentCard().answer === (this.state.answerText)) {
         const correctAnswers = this.state.correctAnswers + 1;
-        this.setState({correctAnswers, cardReview: true, correctAnswer: true});
+        this.setState({correctAnswers, cardReview: true});
       } else {
         this.setState({cardReview: true});
       }
