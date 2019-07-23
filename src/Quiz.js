@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AppStore from './AppStore.js';
+import { Link } from 'react-router-dom';
 
 class Quiz extends Component {
   constructor() {
@@ -60,7 +61,15 @@ class Quiz extends Component {
       if(this.isQuizFinished()) {
         return (
         <div>
-          You got {this.state.correctAnswers} out of {this.state.cards.length} correct!
+          <div>
+            You got {this.state.correctAnswers} out of {this.state.cards.length} correct!
+          </div>
+          <Link to={'/decks'}>
+            <button>Back to Decks</button>
+          </Link>
+          <Link to={`/quiz/${1}`}>
+            <button>Retake Quiz</button>
+          </Link>
         </div>
         )
       }
