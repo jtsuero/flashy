@@ -49,6 +49,10 @@ class Quiz extends Component {
     }
   }
 
+  retakeQuiz = () => {
+    this.setState({answerText: "", correctAnswers: 0, quizReview: false, currentCardIndex: 0})
+  }
+
   reviewCard = () => {
     return(
       <div>
@@ -80,9 +84,7 @@ class Quiz extends Component {
           <Link to={'/decks'}>
             <button>Back to Decks</button>
           </Link>
-          <Link to={`/quiz/${1}`}>
-            <button>Retake Quiz</button>
-          </Link>
+          <button onClick={() => {this.retakeQuiz()}}>Retake Quiz</button>
         </div>
         )
       }
