@@ -9,6 +9,7 @@ class Quiz extends Component {
       cards: null,
       answerText: "",
       correctAnswers: 0,
+      quizReview: false,
       currentCardIndex: -1
     }
   }
@@ -30,6 +31,10 @@ class Quiz extends Component {
     return (this.state.currentCardIndex >= this.state.cards.length)
   }
 
+  handleQuizAnswer = (event) => {
+    this.setState({answerText: event.target.value});
+  }
+
   handleAnswerSubmit = (event) => {
     event.preventDefault();
     if(this.state.answerText === "") {
@@ -37,22 +42,30 @@ class Quiz extends Component {
     } else {
       if(this.getCurrentCard().answer === (this.state.answerText)) {
         const correctAnswers = this.state.correctAnswers + 1;
-        this.setState({correctAnswers});
+        this.setState({correctAnswers, cardReview: true, correctAnswer: true});
+      } else {
+        this.setState({cardReview: true});
       }
-    const currentCardIndex = this.state.currentCardIndex + 1;
-    this.setState({currentCardIndex, answerText:""});
     }
   }
 
-  handleQuizAnswer = (event) => {
-    this.setState({answerText: event.target.value});
+  reviewCard = () => {
+    return(
+      <div>
+        <div>
+          Correct Answer: {this.getCurrentCard().answer}
+        </div>
+        <div>
+          Your Answer: {this.state.answerText}
+        </div>
+      </div>
+    )
   }
 
-//create quiz by having question show, blank input where you enter the supposed answer
-//hit a submit button
-//show answer if correct, then button for next card
-//once iterated through all the cards, at random, show percentage of what was correct
-
+  goToNextCard = () => {
+    const currentCardIndex = this.state.currentCardIndex + 1;
+    this.setState({currentCardIndex, answerText:"", cardReview: false});
+  }
 
   render() {
       if(this.state.cards === null) {
@@ -73,7 +86,19 @@ class Quiz extends Component {
         </div>
         )
       }
+
       const card = this.getCurrentCard();
+      if(this.state.cardReview) {
+        return(
+          <div>
+            Question: {card.question}
+            <input type='textarea' name='name' onChange={this.handleQuizAnswer} value={this.state.answerText} />
+            {this.reviewCard()}
+            <button onClick={this.goToNextCard}>Next Question</button>
+          </div>
+        )
+
+      }
       return(
         <div>
           <form onSubmit = {this.handleAnswerSubmit}>
