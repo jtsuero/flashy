@@ -71,6 +71,32 @@ class Quiz extends Component {
     this.setState({currentCardIndex, answerText:"", cardReview: false});
   }
 
+  quizFinished = () => {
+    return(
+      <div>
+        <div>
+          You got {this.state.correctAnswers} out of {this.state.cards.length} correct!
+        </div>
+        <Link to={'/decks'}>
+          <button>Back to Decks</button>
+        </Link>
+        <button onClick={this.startQuiz}>Retake Quiz</button>
+      </div>
+    )
+  }
+
+  question = () => {
+    const card = this.getCurrentCard();
+    return(
+      <div>
+        Question: {card.question}
+        <input type='textarea' name='name' onChange={this.handleQuizAnswerUpdate} value={this.state.answerText} />
+        <input type='submit' name='submit' value='Check Answer' />
+      </div>
+    )
+
+  }
+
   render() {
       if(this.state.cards === null) {
         return null;
@@ -78,23 +104,15 @@ class Quiz extends Component {
       if(this.isQuizFinished()) {
         return (
         <div>
-          <div>
-            You got {this.state.correctAnswers} out of {this.state.cards.length} correct!
-          </div>
-          <Link to={'/decks'}>
-            <button>Back to Decks</button>
-          </Link>
-          <button onClick={() => {this.retakeQuiz()}}>Retake Quiz</button>
+          {this.quizFinished()}
         </div>
         )
       }
 
-      const card = this.getCurrentCard();
       if(this.state.cardReview) {
         return(
           <div>
-            Question: {card.question}
-            <input type='textarea' name='name' onChange={this.handleQuizAnswer} value={this.state.answerText} />
+            {this.question()}
             {this.reviewCard()}
             <button onClick={this.goToNextCard}>Next Question</button>
           </div>
@@ -103,10 +121,8 @@ class Quiz extends Component {
       }
       return(
         <div>
-          <form onSubmit = {this.handleAnswerSubmit}>
-            Question: {card.question}
-            <input type='textarea' name='name' onChange={this.handleQuizAnswer} value={this.state.answerText} />
-            <input type='submit' name='submit' value='Check Answer' />
+          <form onSubmit={this.handleAnswerSubmit}>
+            {this.question()}
           </form>
         </div>
       )
