@@ -17,7 +17,8 @@ class Quiz extends Component {
   componentDidMount = () => {
     const { match: { params } } = this.props;
     const cards = AppStore.getCardsFromDeck(params.deckId);
-    this.setState({cards, currentCardIndex: 0});
+    this.setState({cards});
+    this.startQuiz();
   }
 
   getCurrentCard = () => {
@@ -49,8 +50,8 @@ class Quiz extends Component {
     }
   }
 
-  retakeQuiz = () => {
-    this.setState({answerText: "", correctAnswers: 0, quizReview: false, currentCardIndex: 0})
+  startQuiz = () => {
+    this.setState({ answerText: "", correctAnswers: 0, quizReview: false, currentCardIndex: 0})
   }
 
   reviewCard = () => {
