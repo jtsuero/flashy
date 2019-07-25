@@ -25,14 +25,14 @@ class Quiz extends Component {
     if(this.state.currentCardIndex === -1) {
       return null;
     }
-   return this.state.cards[this.state.currentCardIndex];
+    return this.state.cards[this.state.currentCardIndex];
   }
 
   isQuizFinished = () => {
     return (this.state.currentCardIndex >= this.state.cards.length)
   }
 
-  handleQuizAnswer = (event) => {
+  handleQuizAnswerUpdate = (event) => {
     this.setState({answerText: event.target.value});
   }
 
@@ -41,12 +41,11 @@ class Quiz extends Component {
     if(this.state.answerText === "") {
       window.alert("You must give an answer!");
     } else {
-      if(this.getCurrentCard().answer === (this.state.answerText)) {
-        const correctAnswers = this.state.correctAnswers + 1;
-        this.setState({correctAnswers, cardReview: true});
-      } else {
-        this.setState({cardReview: true});
+      let correctAnswers = this.state.correctAnswers;
+      if(this.getCurrentCard().answer === this.state.answerText) {
+        correctAnswers += 1;
       }
+        this.setState({correctAnswers, cardReview: true});
     }
   }
 
