@@ -18,7 +18,6 @@ class AppStore {
 
 
   getCardsFromDeck = (deckId) => {
-  console.log(deckId);
     let cardIds = this.getDeck(deckId).cardIds;
     let cards = [];
     for(let i = 0; i < cardIds.length; i++) {
@@ -68,7 +67,7 @@ class AppStore {
   }
 
   addCardToDeck = (deckId, cardId) => {
-    this.deckIds[deckId].cardIds.push(this.cards[cardId]);
+    this.deckIds[deckId].cardIds.push(cardId);
     this.cards[cardId].deckIds.push(deckId);
   }
 
