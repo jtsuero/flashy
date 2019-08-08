@@ -96,13 +96,14 @@ class DeckPage extends Component {
         Adding Cards to:
         {this.state.currentDeckName}
         {this.renderCardInput()}
-        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
+        <CardPrinter cards={AppStore.getCardsFromDeck(this.state.currentDeckId)} deleteCard={this.deleteCard} />
       </div>
       )
-    } else if(this.state.viewCards) {
-      return(
-        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
-      )
+    // } else if(this.state.viewCards) {
+    // is this even used?
+    //   return(
+    //     <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
+    //   )
     } else if(this.state.viewDeck) {
       return(
       <div>
@@ -110,7 +111,7 @@ class DeckPage extends Component {
         <Link to={`quiz/${this.state.currentDeckId}`}>
           <button>Quiz!</button>
         </Link>
-        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
+        <CardPrinter cards={AppStore.getCardsFromDeck(this.state.currentDeckId)} deleteCard={this.deleteCard} />
       </div>
       )
     } else if(this.state.newDeck) {
