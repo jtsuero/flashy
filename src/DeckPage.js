@@ -48,28 +48,27 @@ class DeckPage extends Component {
       window.alert("You must name your deck!");
     } else {
       if(AppStore.checkDeckName(this.state.deckName)) {
-        const newDeck = AppStore.createDeck(this.state.deckName);
-        let allDecks = AppStore.getDecks();
-        this.setState({allDecks, currentDeckId: newDeck.id, currentDeckName: newDeck.name, addingCards: true})
+        const deckId = AppStore.createDeck(this.state.deckName);
+        deckId.then(data => this.setState({currentDeckId: data._id, currentDeckName: data.deckName, addingCards: true}));
+        // let allDecks = AppStore.getDecks();
       }
     }
   }
 
   getDecks = () => {
-    let deck = AppStore.getDecks();
-    return deck;
+    let decks = AppStore.getDecks();
+    return decks;
   }
 
   getCards = () => {
     let cards = AppStore.getCardsFromDeck(this.state.currentDeckId)
-    console.log(this.state.currentDeckId);
-    console.log(cards);
     return cards;
 
   }
 
   chooseDeck = (currentDeck) => {
-    this.setState({currentDeckId: currentDeck.id, currentDeckName: currentDeck.name, viewDeck: true})
+    console.log(this.state);
+    this.setState({currentDeckId: currentDeck._id, currentDeckName: currentDeck.deckName, viewDeck: true})
   }
 
   handleQuestion = (event) => {
@@ -144,6 +143,10 @@ class DeckPage extends Component {
     );
   }
 
+  finishDeck = () => {
+    this.setState({addingCards: false, newDeck: false})
+  }
+
   renderCardInput = () => {
     return(
       <div>
@@ -151,7 +154,7 @@ class DeckPage extends Component {
           {this.cardInput()}
           <input type='submit' name='submit' />
         </form>
-        <input type='button' value='Done' onClick={() => {this.setState({addingCards: false, newDeck: false})}} />
+        <input type='button' value='Done' onClick={this.finishDeck} />
         <br />
       </div>
 

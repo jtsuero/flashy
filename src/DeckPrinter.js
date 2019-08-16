@@ -5,7 +5,7 @@ class DeckPrinter extends Component {
   printDeck(deck) {
     return (
       <div key={deck.id} onClick={() => this.props.chooseDeck(deck)} className='deck-links'>
-        {deck.name}
+        {deck.deckName}
         <div className='deck-amount'>
           Cards in deck: {deck.cardIds.length}
         </div>

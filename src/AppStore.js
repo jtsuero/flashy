@@ -28,8 +28,7 @@ class AppStore {
   }
 
   getDeckName = (deckId) => {
-    return this.deckIds[deckId].name;
-
+    return this.deckIds[deckId].deckName;
   }
 
   getCard = (cardId) => {
@@ -59,11 +58,16 @@ class AppStore {
     return true;
   }
 
-  createDeck = (name) => {
-      let newDeck = new Deck(this.nextDeckId, name);
-      this.deckIds[this.nextDeckId] = newDeck;
-      this.nextDeckId += 1;
-      return newDeck;
+  createDeck = (deckName) => {
+    return fetch('http://localhost:8000/decks',
+      {method: 'post',
+       body: JSON.stringify({deckName}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => {return res.json()})
+        .then(data => {
+          this.deckIds[data._id] = data;
+          return data})
   }
 
   addCardToDeck = (deckId, cardId) => {
