@@ -11,9 +11,11 @@ app.use(bodyParser.json());
 
 // Import Routes
 const deckRoute = require('./routes/decks');
+const cardRoute = require('./routes/cards');
 
 //Routes
 app.use('/decks', deckRoute);
+app.use('/cards', cardRoute);
 
 mongoose.connect(process.env.DB_CONNECTION,
 { useNewUrlParser: true },
