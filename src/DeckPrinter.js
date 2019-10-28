@@ -4,8 +4,10 @@ class DeckPrinter extends Component {
 
   printDeck(deck) {
     return (
-      <div key={deck.id} onClick={() => this.props.chooseDeck(deck)} className='deck-links'>
-        {deck.deckName}
+      <div key={deck._id} onClick={() => this.props.chooseDeck(deck)} className='deck-links'>
+        <div>
+          {deck.deckName}
+        </div>
         <div className='deck-amount'>
           Cards in deck: {deck.cardIds.length}
         </div>
@@ -14,7 +16,11 @@ class DeckPrinter extends Component {
   }
 
   render() {
+    if(this.props.decks === null) {
+      return null;
+    }
     let decks = this.props.decks.map(this.printDeck.bind(this))
+    // console.log(this.props.decks.cardIds);
     return (
       <div>
         {decks}
