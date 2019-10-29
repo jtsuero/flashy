@@ -17,8 +17,7 @@ class AppStore {
        body: JSON.stringify({deckName}),
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {return data})
+        .then((res) => res.json())
   }
 
   getCardsFromDeck = (deckId) => {
@@ -35,8 +34,7 @@ class AppStore {
       {method: 'get',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {return data})
+        .then((res) => res.json())
   }
 
   checkDeckName = (name) => {
@@ -56,9 +54,7 @@ class AppStore {
        body: JSON.stringify({cardId}),
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {
-          return data})
+        .then((res) => res.json())
   }
 
   removeCardFromDeck = (deckId, cardId) => {
@@ -67,9 +63,7 @@ class AppStore {
        body: JSON.stringify({cardId}),
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {
-          return data})
+        .then((res) => res.json())
   }
 
   deleteCard = (cardId) => {
@@ -77,8 +71,7 @@ class AppStore {
       {method: 'delete',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {return data})
+        .then((res) => res.json())
   }
 
   deleteDeck = (deckId) => {
@@ -86,8 +79,7 @@ class AppStore {
       {method: 'delete',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {return data})
+        .then((res) => res.json())
   }
 
   getDeck = (deckId) => {
@@ -95,8 +87,7 @@ class AppStore {
       {method: 'get',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {return data})
+        .then((res) => res.json())
   }
 
   getDeckNames = () => {
@@ -115,9 +106,7 @@ class AppStore {
       {method: 'get',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {
-          return data})
+        .then((res) => res.json())
   }
 
 }
