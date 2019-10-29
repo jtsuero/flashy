@@ -9,7 +9,7 @@ class AppStore {
 
   createCard = (question, answer) => {
     // let newCard = new Card(this.nextCardId, question, answer);
-    return fetch('http://localhost:8000/decks/card',
+    return fetch('http://localhost:8000/cards',
       {method: 'post',
        body: JSON.stringify({question, answer}),
        mode: 'cors',
@@ -40,7 +40,7 @@ class AppStore {
   }
 
   getCard = (cardId) => {
-    return fetch(`http://localhost:8000/decks/card/${cardId}`,
+    return fetch(`http://localhost:8000/cards/${cardId}`,
       {method: 'get',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
@@ -96,7 +96,7 @@ class AppStore {
   }
 
   deleteCard = (cardId) => {
-    return fetch(`http://localhost:8000/decks/card/${cardId}`,
+    return fetch(`http://localhost:8000/card/${cardId}`,
       {method: 'delete',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
