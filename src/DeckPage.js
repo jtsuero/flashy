@@ -53,10 +53,8 @@ class DeckPage extends Component {
     if(this.state.deckName === null) {
       window.alert("You must name your deck!");
     } else {
-      // if(AppStore.checkDeckName(this.state.deckName)) {
         const deckId = AppStore.createDeck(this.state.deckName);
         deckId.then(data => this.setState({currentDeckId: data._id, currentDeckName: data.deckName, addingCards: true}));
-      // }
     }
   }
 
@@ -64,11 +62,6 @@ class DeckPage extends Component {
     let decks = AppStore.getDecks();
     decks.then(data => this.setState({decks: data}));
   }
-
-  // getCards = () => {
-  //   let cards = AppStore.getCardsFromDeck(this.state.currentDeckId)
-  //   return cards;
-  // }
 
   chooseDeck = (currentDeck) => {
     this.setState({currentDeckId: currentDeck._id, currentDeckName: currentDeck.deckName, viewDeck: true})
@@ -89,7 +82,6 @@ class DeckPage extends Component {
   deleteCard = (cardId, deckId) => {
     AppStore.removeCardFromDeck(this.state.currentDeckId, cardId);
     AppStore.deleteCard(cardId);
-    // this.setState(AppStore.getCards());
   }
 
   deleteDeck = () => {
