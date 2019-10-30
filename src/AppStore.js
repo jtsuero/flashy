@@ -57,6 +57,13 @@ class AppStore {
         .then((res) => res.json())
   }
 
+  getCardsFromDeck = (currentDeckId) => {
+    return this.getDeck(currentDeckId).then(data => {
+    return Promise.all(data.cardIds.map(this.getCard))
+    // .then(cards => {return cards});
+    });
+  }
+
   removeCardFromDeck = (deckId, cardId) => {
     return fetch(`http://localhost:8000/decks/remove/${deckId}`,
       {method: 'put',

@@ -91,10 +91,8 @@ class DeckPage extends Component {
   }
 
   getCardsFromDeck = () => {
-    AppStore.getDeck(this.state.currentDeckId).then(data => {
-    Promise.all(data.cardIds.map(AppStore.getCard)).then(cards => {
-      this.setState({cards})
-    });
+    AppStore.getCardsFromDeck(this.state.currentDeckId).then(cards => {
+    this.setState({cards});
     });
   }
 
