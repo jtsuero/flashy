@@ -67,7 +67,7 @@ class AppStore {
   }
 
   deleteCard = (cardId) => {
-    return fetch(`http://localhost:8000/card/${cardId}`,
+    return fetch(`http://localhost:8000/cards/${cardId}`,
       {method: 'delete',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
