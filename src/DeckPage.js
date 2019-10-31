@@ -116,6 +116,7 @@ class DeckPage extends Component {
           <button>Quiz!</button>
         </Link>
         <input type='button' value='Delete Deck' onClick={ () => {this.deleteDeck()}} />
+        <input type='button' value='Back to Decks' onClick={ () => {this.setState({viewDeck: false})}} />
         <CardPrinter cards={this.state.cards} deleteCard={this.deleteCard} />
       </div>
       )
