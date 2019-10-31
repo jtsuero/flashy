@@ -61,8 +61,7 @@ class DeckPage extends Component {
   }
 
   getDecks = () => {
-    let decks = AppStore.getDecks();
-    decks.then(data => this.setState({decks: data}));
+    AppStore.getDecks().then(decks => this.setState({decks}));
   }
 
   chooseDeck = (currentDeck) => {
@@ -87,8 +86,7 @@ class DeckPage extends Component {
   }
 
   deleteDeck = () => {
-    AppStore.deleteDeck(this.state.currentDeckId);
-    this.getDecks();
+    AppStore.deleteDeck(this.state.currentDeckId).then(() => {this.getDecks()});
     this.setState({viewDeck: false})
   }
 
