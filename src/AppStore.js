@@ -9,18 +9,13 @@ class AppStore {
         .then((res) => res.json())
   }
 
-  createDeck = (deckName) => {
+  createDeck = (name) => {
     return fetch('http://localhost:8000/decks',
       {method: 'post',
-       body: JSON.stringify({deckName}),
+       body: JSON.stringify({name}),
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
         .then((res) => res.json())
-  }
-
-  getCardsFromDeck = (deckId) => {
-    let deck = this.getDeck(deckId);
-    deck.then(data => data.cardIds);
   }
 
   getCard = (cardId) => {
@@ -52,8 +47,7 @@ class AppStore {
   }
 
   getCardsFromDeck = (currentDeckId) => {
-    return this.getDeck(currentDeckId)
-    .then(data => {return Promise.all(data.cardIds.map(this.getCard))
+    return this.getDeck(currentDeckId).then(data => {return Promise.all(data.cardIds.map(this.getCard))
     });
   }
 
@@ -89,17 +83,6 @@ class AppStore {
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
         .then((res) => res.json())
-  }
-
-  getDeckNames = () => {
-    const keys = Object.keys(this.deckIds);
-    let deckNames = [];
-    for(let i = 0; i < keys.length; i++) {
-      let deckName = this.getDeck(keys[i]).name;
-      deckNames.push(deckName);
-
-    }
-    return deckNames;
   }
 
   getDecks = () => {
