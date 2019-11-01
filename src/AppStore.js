@@ -58,9 +58,8 @@ class AppStore {
   }
 
   getCardsFromDeck = (currentDeckId) => {
-    return this.getDeck(currentDeckId).then(data => {
-    return Promise.all(data.cardIds.map(this.getCard))
-    // .then(cards => {return cards});
+    return this.getDeck(currentDeckId)
+    .then(data => {return Promise.all(data.cardIds.map(this.getCard))
     });
   }
 
