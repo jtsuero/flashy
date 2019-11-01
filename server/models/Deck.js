@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const DeckSchema = mongoose.Schema({
-  deckName: {
+  name: {
     type: String,
     required: true
   },
