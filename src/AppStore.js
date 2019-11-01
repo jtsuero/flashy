@@ -64,6 +64,7 @@ class AppStore {
   }
 
   removeCardFromDeck = (deckId, cardId) => {
+    this.deleteCard(cardId);
     return fetch(`http://localhost:8000/decks/remove/${deckId}`,
       {method: 'put',
        body: JSON.stringify({cardId}),
