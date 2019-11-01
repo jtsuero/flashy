@@ -23,10 +23,6 @@ class AppStore {
     deck.then(data => data.cardIds);
   }
 
-  getDeckName = (deckId) => {
-    return deckId.deckName;
-  }
-
   getCard = (cardId) => {
     return fetch(`http://localhost:8000/cards/${cardId}`,
       {method: 'get',
