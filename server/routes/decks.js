@@ -42,7 +42,7 @@ router.put('/remove/:id', async (req,res) => {
 
 router.post('/', async (req,res) => {
   const deck = new Deck({
-    deckName: req.body.deckName,
+    name: req.body.name,
     cardIds: req.body.cardIds
   });
   try{
