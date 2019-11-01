@@ -6,9 +6,7 @@ class AppStore {
        body: JSON.stringify({question, answer}),
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
-        .then((res) => {return res.json()})
-        .then(data => {
-          return data})
+        .then((res) => res.json())
   }
 
   createDeck = (deckName) => {
@@ -22,7 +20,7 @@ class AppStore {
 
   getCardsFromDeck = (deckId) => {
     let deck = this.getDeck(deckId);
-    deck.then(data => {return data.cardIds});
+    deck.then(data => data.cardIds);
   }
 
   getDeckName = (deckId) => {
