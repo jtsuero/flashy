@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Deck = require('../models/Deck');
+const verify = require('./verifyToken');
 
-router.get('/', async (req,res) => {
+router.get('/', verify, async (req,res) => {
   try{
     const decks = await Deck.find();
     res.status(200).json(decks);
@@ -11,7 +12,7 @@ router.get('/', async (req,res) => {
   }
 });
 
-router.get('/:id', async (req,res) => {
+router.get('/:id', verify, async (req,res) => {
    try{
     const deck = await Deck.findById(req.params.id);
     res.status(200).json(deck);
@@ -20,7 +21,7 @@ router.get('/:id', async (req,res) => {
    }
 });
 
-router.put('/:id', async (req,res) => {
+router.put('/:id', verify, async (req,res) => {
   try{
     const updatedDeck = await Deck.updateOne({_id: req.params.id},
     { $push: {cardIds: req.body.cardId} });
@@ -30,7 +31,7 @@ router.put('/:id', async (req,res) => {
   }
 });
 
-router.put('/remove/:id', async (req,res) => {
+router.put('/remove/:id', verify, async (req,res) => {
   try{
     const updatedDeck = await Deck.updateOne({_id: req.params.id},
     { $pull: {cardIds: req.body.cardId} });
@@ -40,7 +41,7 @@ router.put('/remove/:id', async (req,res) => {
   }
 });
 
-router.post('/', async (req,res) => {
+router.post('/', verify, async (req,res) => {
   const deck = new Deck({
     name: req.body.name,
     cardIds: req.body.cardIds
@@ -53,7 +54,7 @@ router.post('/', async (req,res) => {
   }
 });
 
-router.delete('/:id', async (req,res) => {
+router.delete('/:id', verify, async (req,res) => {
    try{
     const deletedDeck = await Deck.remove({_id: req.params.id});
     res.status(200).json(deletedDeck);

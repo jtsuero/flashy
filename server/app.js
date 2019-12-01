@@ -10,10 +10,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Import Routes
+const authRoute = require('./routes/auth');
 const deckRoute = require('./routes/decks');
 const cardRoute = require('./routes/cards');
 
-//Routes
+//Routes Middlewares
+app.use('/api/user', authRoute);
 app.use('/decks', deckRoute);
 app.use('/cards', cardRoute);
 
