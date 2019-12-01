@@ -84,15 +84,14 @@ class DeckPage extends Component {
     if(cardId._id !== undefined) {
       AppStore.removeCardFromDeck(this.state.currentDeckId, cardId._id);
     } else {
-      console.log(cardId._id);
       AppStore.removeCardFromDeck(this.state.currentDeckId, cardId).then(() => this.getCardsFromDeck());
     }
   }
 
   deleteDeck = () => {
     this.state.cards.map(this.deleteCard);
-    AppStore.deleteDeck(this.state.currentDeckId).then(() => {this.getDecks()});
-    this.setState({viewDeck: false})
+    AppStore.deleteDeck(this.state.currentDeckId).then(() => {this.getDecks()})
+    .then(() => {this.setState({viewDeck: false})});
   }
 
   getCardsFromDeck = () => {
