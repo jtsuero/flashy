@@ -1,5 +1,25 @@
 class AppStore {
 
+  register = (userName, email, password) => {
+    return fetch('http://localhost:8000/api/user/register',
+      {method: 'post',
+       body: JSON.stringify({userName, email, password}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
+  }
+
+  login = (email, password) => {
+    return fetch('http://localhost:8000/api/user/login',
+      {method: 'post',
+       body: JSON.stringify({email, password}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"},
+       credentials: 'include',
+      })
+        .then((res) => res)
+  }
+
   createCard = (question, answer) => {
     return fetch('http://localhost:8000/cards',
       {method: 'post',

@@ -6,7 +6,10 @@ const cors = require('cors');
 require('dotenv/config');
 
 //Middleware
-app.use(cors());
+app.use(cors({
+  origin:'http://rootdomain.com:3000',
+  credentials: true,
+}));
 app.use(bodyParser.json());
 
 // Import Routes
