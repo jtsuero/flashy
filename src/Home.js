@@ -32,7 +32,7 @@ class Home extends Component {
     if(this.state.email === null || this.state.password === null) {
       alert('You must enter a username, email and password!');
     } else {
-      AppStore.register(this.state.email, this.state.password);
+      AppStore.register(this.state.username, this.state.email, this.state.password);
     }
   }
 
