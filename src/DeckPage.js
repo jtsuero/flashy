@@ -58,7 +58,7 @@ class DeckPage extends Component {
       window.alert("You must name your deck!");
     } else {
         AppStore.createDeck(this.state.deckName)
-        .then(data => this.setState({currentDeck.id: data._id, currentDeck.name: data.name, addingCards: true}));
+        .then(deck => this.setState({currentDeck: {id: deck._id, name: deck.name}, addingCards: true}));
     }
   }
 
@@ -67,7 +67,7 @@ class DeckPage extends Component {
   }
 
   chooseDeck = (currentDeck) => {
-    this.setState({currentDeck.id: currentDeck._id, currentDeck.name: currentDeck.name, viewDeck: true})
+    this.setState({currentDeck: {id: currentDeck._id, name: currentDeck.name},  viewDeck: true})
   }
 
   handleQuestion = (event) => {
