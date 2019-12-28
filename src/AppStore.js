@@ -1,7 +1,8 @@
-class AppStore {
+const HOST_URL = 'http://localhost:8000';
 
+class AppStore {
   register = (userName, email, password) => {
-    return fetch('http://localhost:8000/api/user/register',
+    return fetch(`${HOST_URL}/api/user/register`,
       {method: 'post',
        body: JSON.stringify({userName, email, password}),
        mode: 'cors',
@@ -10,7 +11,7 @@ class AppStore {
   }
 
   login = (email, password) => {
-    return fetch('http://localhost:8000/api/user/login',
+    return fetch(`${HOST_URL}/api/user/login`,
       {method: 'post',
        body: JSON.stringify({email, password}),
        mode: 'cors',
@@ -21,7 +22,7 @@ class AppStore {
   }
 
   createCard = (question, answer) => {
-    return fetch('http://localhost:8000/cards',
+    return fetch(`${HOST_URL}/cards`,
       {method: 'post',
        body: JSON.stringify({question, answer}),
        mode: 'cors',
@@ -30,7 +31,7 @@ class AppStore {
   }
 
   createDeck = (name) => {
-    return fetch('http://localhost:8000/decks',
+    return fetch(`${HOST_URL}/decks`,
       {method: 'post',
        body: JSON.stringify({name}),
        mode: 'cors',
@@ -39,7 +40,7 @@ class AppStore {
   }
 
   getCard = (cardId) => {
-    return fetch(`http://localhost:8000/cards/${cardId}`,
+    return fetch(`${HOST_URL}/cards/${cardId}`,
       {method: 'get',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
@@ -58,7 +59,7 @@ class AppStore {
   }
 
   addCardToDeck = (deckId, cardId) => {
-    return fetch(`http://localhost:8000/decks/${deckId}`,
+    return fetch(`${HOST_URL}/decks/${deckId}`,
       {method: 'put',
        body: JSON.stringify({cardId}),
        mode: 'cors',
@@ -67,22 +68,22 @@ class AppStore {
   }
 
   getCardsFromDeck = (currentDeckId) => {
-    return this.getDeck(currentDeckId).then(data => {return Promise.all(data.cardIds.map(this.getCard))
+    return this.getDeck(currentDeckId).then(deck => {return Promise.all(deck.cardIds.map(this.getCard))
     });
   }
 
   removeCardFromDeck = (deckId, cardId) => {
-    this.deleteCard(cardId);
-    return fetch(`http://localhost:8000/decks/remove/${deckId}`,
+    return fetch(`${HOST_URL}/decks/remove/${deckId}`,
       {method: 'put',
        body: JSON.stringify({cardId}),
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
         .then((res) => res.json())
+        .then(this.deleteCard(cardId))
   }
 
   deleteCard = (cardId) => {
-    return fetch(`http://localhost:8000/cards/${cardId}`,
+    return fetch(`${HOST_URL}/cards/${cardId}`,
       {method: 'delete',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
@@ -90,7 +91,7 @@ class AppStore {
   }
 
   deleteDeck = (deckId) => {
-    return fetch(`http://localhost:8000/decks/${deckId}`,
+    return fetch(`${HOST_URL}/decks/${deckId}`,
       {method: 'delete',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
@@ -98,7 +99,7 @@ class AppStore {
   }
 
   getDeck = (deckId) => {
-    return fetch(`http://localhost:8000/decks/${deckId}`,
+    return fetch(`${HOST_URL}/decks/${deckId}`,
       {method: 'get',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
@@ -106,7 +107,7 @@ class AppStore {
   }
 
   getDecks = () => {
-    return fetch('http://localhost:8000/decks',
+    return fetch(`${HOST_URL}/decks`,
       {method: 'get',
        mode: 'cors',
        headers: {"Content-Type": "application/json"}})
