@@ -16,8 +16,7 @@ class Quiz extends Component {
 
   componentDidMount = () => {
     const { match: { params } } = this.props;
-    const cards = AppStore.getCardsFromDeck(params.deckId);
-    this.setState({cards});
+    AppStore.getCardsFromDeck(params.deckId).then(cards => this.setState({cards}));
     this.startQuiz();
   }
 

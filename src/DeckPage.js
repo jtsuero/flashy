@@ -12,20 +12,31 @@ class DeckPage extends Component {
       question: null,
       answer: null,
       deckName: null,
-      allCards: null,
-      allDecks: null,
       addingCards: false,
-      currentDeckId: null,
-      currentDeckName: null,
+      currentDeck: {
+      id: null,
+      name: null,
+      },
       viewDeck: false,
       viewCards: false,
       newDeck: false,
       existingDeck: false,
-      cardsDisplayed: true, //check if needed when fully functional
       newCard: false,
       quiz: false,
-      deck: []
+      decks: [],
+      deck: [],
+      cards: [],
     };
+  }
+
+  componentDidMount() {
+    this.getDecks();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.state.currentDeck.id !== prevState.currentDeck.id) {
+      this.getCardsFromDeck();
+    }
   }
 
   createCard = (event) => {
@@ -35,10 +46,9 @@ class DeckPage extends Component {
     } else if (this.state.answer === null) {
       window.alert("You must add an answer!");
     } else {
-    const newCard = AppStore.createCard(this.state.question, this.state.answer);
-    AppStore.addCardToDeck(this.state.currentDeckId, newCard.id);
-    let allCards = AppStore.getCards();
-    this.setState({allCards, newCard: true})
+      AppStore.createCard(this.state.question, this.state.answer).then(card => {
+      AppStore.addCardToDeck(this.state.currentDeck.id, card._id).then(() => {this.getCardsFromDeck()});
+      });
     }
   }
 
@@ -47,29 +57,17 @@ class DeckPage extends Component {
     if(this.state.deckName === null) {
       window.alert("You must name your deck!");
     } else {
-      if(AppStore.checkDeckName(this.state.deckName)) {
-        const newDeck = AppStore.createDeck(this.state.deckName);
-        let allDecks = AppStore.getDecks();
-        this.setState({allDecks, currentDeckId: newDeck.id, currentDeckName: newDeck.name, addingCards: true})
-      }
+        AppStore.createDeck(this.state.deckName)
+        .then(deck => this.setState({currentDeck: {id: deck._id, name: deck.name}, addingCards: true}));
     }
   }
 
   getDecks = () => {
-    let deck = AppStore.getDecks();
-    return deck;
-  }
-
-  getCards = () => {
-    let cards = AppStore.getCardsFromDeck(this.state.currentDeckId)
-    console.log(this.state.currentDeckId);
-    console.log(cards);
-    return cards;
-
+    AppStore.getDecks().then(decks => this.setState({decks}));
   }
 
   chooseDeck = (currentDeck) => {
-    this.setState({currentDeckId: currentDeck.id, currentDeckName: currentDeck.name, viewDeck: true})
+    this.setState({currentDeck: {id: currentDeck._id, name: currentDeck.name},  viewDeck: true})
   }
 
   handleQuestion = (event) => {
@@ -85,8 +83,23 @@ class DeckPage extends Component {
   }
 
   deleteCard = (cardId) => {
-    AppStore.deleteCard(cardId);
-    this.setState(AppStore.getCards());
+    if(cardId._id !== undefined) {
+      AppStore.removeCardFromDeck(this.state.currentDeck.id, cardId._id);
+    } else {
+      AppStore.removeCardFromDeck(this.state.currentDeck.id, cardId).then(() => this.getCardsFromDeck());
+    }
+  }
+
+  deleteDeck = () => {
+    this.state.cards.map(this.deleteCard);
+    AppStore.deleteDeck(this.state.currentDeck.id).then(() => {this.getDecks()})
+    .then(() => {this.setState({viewDeck: false})});
+  }
+
+  getCardsFromDeck = () => {
+    AppStore.getCardsFromDeck(this.state.currentDeck.id).then(cards => {
+    this.setState({cards});
+    });
   }
 
   renderDeckPage = () => {
@@ -94,23 +107,21 @@ class DeckPage extends Component {
       return(
       <div>
         Adding Cards to:
-        {this.state.currentDeckName}
+        {this.state.currentDeck.name}
         {this.renderCardInput()}
-        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
+        <CardPrinter cards={this.state.cards} deleteCard={this.deleteCard} />
       </div>
-      )
-    } else if(this.state.viewCards) {
-      return(
-        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
       )
     } else if(this.state.viewDeck) {
       return(
       <div>
         <input type='button' value='Add Cards' onClick={() => {this.setState({addingCards: true})}} />
-        <Link to={`quiz/${this.state.currentDeckId}`}>
+        <Link to={`quiz/${this.state.currentDeck.id}`}>
           <button>Quiz!</button>
         </Link>
-        <CardPrinter cards={AppStore.getCards()} deleteCard={this.deleteCard} />
+        <input type='button' value='Delete Deck' onClick={ () => {this.deleteDeck()}} />
+        <input type='button' value='Back to Decks' onClick={ () => {this.setState({viewDeck: false})}} />
+        <CardPrinter cards={this.state.cards} deleteCard={this.deleteCard} />
       </div>
       )
     } else if(this.state.newDeck) {
@@ -126,7 +137,7 @@ class DeckPage extends Component {
       return (
         <div>
           <input type="submit" name="submit" value="Create New Deck" onClick={() => {this.setState({newDeck: true})}} />
-          <DeckPrinter decks={this.getDecks()} chooseDeck={this.chooseDeck} />
+          <DeckPrinter decks={this.state.decks} chooseDeck={this.chooseDeck} deleteDeck={this.deleteDeck} />
         </div>
       )
     }
@@ -143,6 +154,12 @@ class DeckPage extends Component {
     );
   }
 
+  finishDeck = () => {
+    this.getDecks().then(() => {
+      this.setState({addingCards: false, newDeck: false})
+    })
+  }
+
   renderCardInput = () => {
     return(
       <div>
@@ -150,7 +167,7 @@ class DeckPage extends Component {
           {this.cardInput()}
           <input type='submit' name='submit' />
         </form>
-        <input type='button' value='Done' onClick={() => {this.setState({addingCards: false, newDeck: false})}} />
+        <input type='button' value='Done' onClick={this.finishDeck} />
         <br />
       </div>
 

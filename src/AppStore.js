@@ -1,51 +1,50 @@
-import Card from './Card.js';
-import Deck from './Deck.js';
+const HOST_URL = 'http://localhost:8000';
 
 class AppStore {
-  constructor() {
-    this.deckIds = {};
-    this.cards = {};
-    this.nextCardId = 1;
-    this.nextDeckId = 1;
+  register = (userName, email, password) => {
+    return fetch(`${HOST_URL}/api/user/register`,
+      {method: 'post',
+       body: JSON.stringify({userName, email, password}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
+  }
+
+  login = (email, password) => {
+    return fetch(`${HOST_URL}/api/user/login`,
+      {method: 'post',
+       body: JSON.stringify({email, password}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"},
+       credentials: 'include',
+      })
+        .then((res) => res)
   }
 
   createCard = (question, answer) => {
-    let newCard = new Card(this.nextCardId, question, answer);
-    this.cards[this.nextCardId] = newCard;
-    this.nextCardId += 1;
-    return newCard;
+    return fetch(`${HOST_URL}/cards`,
+      {method: 'post',
+       body: JSON.stringify({question, answer}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
   }
 
-
-  getCardsFromDeck = (deckId) => {
-    let cardIds = this.getDeck(deckId).cardIds;
-    let cards = [];
-    for(let i = 0; i < cardIds.length; i++) {
-      let cardId = cardIds[i];
-      cards.push(this.getCard(cardId));
-    }
-    return cards;
-  }
-
-  getDeckName = (deckId) => {
-    return this.deckIds[deckId].name;
-
+  createDeck = (name) => {
+    return fetch(`${HOST_URL}/decks`,
+      {method: 'post',
+       body: JSON.stringify({name}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
   }
 
   getCard = (cardId) => {
-    return this.cards[cardId];
-  }
-
-  getCards = () => {
-    //get all keys of the object then iterate through the keys
-    const keys = Object.keys(this.cards);
-    let cardStack = [];
-    for(let i = 0; i < keys.length; i++) {
-      let card = this.getCard(keys[i]);
-      cardStack.push(card);
-
-    }
-    return cardStack;
+    return fetch(`${HOST_URL}/cards/${cardId}`,
+      {method: 'get',
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
   }
 
   checkDeckName = (name) => {
@@ -59,48 +58,61 @@ class AppStore {
     return true;
   }
 
-  createDeck = (name) => {
-      let newDeck = new Deck(this.nextDeckId, name);
-      this.deckIds[this.nextDeckId] = newDeck;
-      this.nextDeckId += 1;
-      return newDeck;
+  addCardToDeck = (deckId, cardId) => {
+    return fetch(`${HOST_URL}/decks/${deckId}`,
+      {method: 'put',
+       body: JSON.stringify({cardId}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
   }
 
-  addCardToDeck = (deckId, cardId) => {
-    this.deckIds[deckId].cardIds.push(cardId);
-    this.cards[cardId].deckIds.push(deckId);
+  getCardsFromDeck = (currentDeckId) => {
+    return this.getDeck(currentDeckId).then(deck => {return Promise.all(deck.cardIds.map(this.getCard))
+    });
+  }
+
+  removeCardFromDeck = (deckId, cardId) => {
+    return fetch(`${HOST_URL}/decks/remove/${deckId}`,
+      {method: 'put',
+       body: JSON.stringify({cardId}),
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
+        .then(this.deleteCard(cardId))
   }
 
   deleteCard = (cardId) => {
-    delete this.cards[cardId];
+    return fetch(`${HOST_URL}/cards/${cardId}`,
+      {method: 'delete',
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
+  }
+
+  deleteDeck = (deckId) => {
+    return fetch(`${HOST_URL}/decks/${deckId}`,
+      {method: 'delete',
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
   }
 
   getDeck = (deckId) => {
-    return this.deckIds[deckId];
-  }
-
-  getDeckNames = () => {
-    const keys = Object.keys(this.deckIds);
-    let deckNames = [];
-    for(let i = 0; i < keys.length; i++) {
-      let deckName = this.getDeck(keys[i]).name;
-      deckNames.push(deckName);
-
-    }
-    return deckNames;
+    return fetch(`${HOST_URL}/decks/${deckId}`,
+      {method: 'get',
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
   }
 
   getDecks = () => {
-    const keys = Object.keys(this.deckIds);
-    let deckStack = [];
-    for(let i = 0; i < keys.length; i++) {
-      let deck = this.getDeck(keys[i]);
-      deckStack.push(deck);
-
-    }
-    return deckStack;
+    return fetch(`${HOST_URL}/decks`,
+      {method: 'get',
+       mode: 'cors',
+       headers: {"Content-Type": "application/json"}})
+        .then((res) => res.json())
   }
-
 }
 
 const sharedAppStore = new AppStore();
