@@ -112,7 +112,6 @@ class AppStore {
        headers: {"Content-Type": "application/json"}})
         .then((res) => res.json())
   }
-
 }
 
 const sharedAppStore = new AppStore();

@@ -22,7 +22,6 @@ class CardPrinter extends Component {
         <div className='card-answer'>Answer: {card.answer}</div>
       </div>
     );
-    }
   }
 
 

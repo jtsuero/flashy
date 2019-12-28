@@ -20,7 +20,6 @@ class DeckPrinter extends Component {
       return null;
     }
     let decks = this.props.decks.map(this.printDeck.bind(this))
-    // console.log(this.props.decks.cardIds);
     return (
       <div>
         {decks}

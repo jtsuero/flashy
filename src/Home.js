@@ -28,11 +28,11 @@ class Home extends Component {
   }
 
   registerUser = (event) => {
+    event.preventDefault();
     if(this.state.email === null || this.state.password === null) {
       alert('You must enter a username, email and password!');
     } else {
-      event.preventDefault();
-      AppStore.register(this.state.username, this.state.email, this.state.password);
+      AppStore.register(this.state.email, this.state.password);
     }
   }
 

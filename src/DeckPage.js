@@ -23,7 +23,7 @@ class DeckPage extends Component {
       quiz: false,
       decks: [],
       deck: [],
-      cards: []
+      cards: [],
     };
   }
 
