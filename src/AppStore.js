@@ -6,7 +6,7 @@ class AppStore {
       {method: 'post',
        body: JSON.stringify({userName, email, password}),
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 
@@ -15,7 +15,7 @@ class AppStore {
       {method: 'post',
        body: JSON.stringify({email, password}),
        mode: 'cors',
-       headers: {"Content-Type": "application/json"},
+       headers: {'Content-Type': 'application/json'},
        credentials: 'include',
       })
         .then((res) => res)
@@ -26,7 +26,7 @@ class AppStore {
       {method: 'post',
        body: JSON.stringify({question, answer}),
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 
@@ -35,7 +35,7 @@ class AppStore {
       {method: 'post',
        body: JSON.stringify({name}),
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 
@@ -43,7 +43,7 @@ class AppStore {
     return fetch(`${HOST_URL}/cards/${cardId}`,
       {method: 'get',
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 
@@ -51,7 +51,7 @@ class AppStore {
     const keys = Object.keys(this.deckIds);
     for(let i = 0; i<keys.length; i++) {
       if(this.getDeckName(keys[i])=== name) {
-        window.alert("That deck already exists!");
+        window.alert('That deck already exists!');
         return false;
       }
     }
@@ -63,7 +63,7 @@ class AppStore {
       {method: 'put',
        body: JSON.stringify({cardId}),
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 
@@ -77,7 +77,7 @@ class AppStore {
       {method: 'put',
        body: JSON.stringify({cardId}),
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
         .then(this.deleteCard(cardId))
   }
@@ -86,7 +86,7 @@ class AppStore {
     return fetch(`${HOST_URL}/cards/${cardId}`,
       {method: 'delete',
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 
@@ -94,7 +94,7 @@ class AppStore {
     return fetch(`${HOST_URL}/decks/${deckId}`,
       {method: 'delete',
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 
@@ -102,7 +102,7 @@ class AppStore {
     return fetch(`${HOST_URL}/decks/${deckId}`,
       {method: 'get',
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 
@@ -110,7 +110,7 @@ class AppStore {
     return fetch(`${HOST_URL}/decks`,
       {method: 'get',
        mode: 'cors',
-       headers: {"Content-Type": "application/json"}})
+       headers: {'Content-Type': 'application/json'}})
         .then((res) => res.json())
   }
 }
