@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  padding: 0 15rem;
 }
 
 .triangle {
@@ -31,13 +32,34 @@ nav {
   list-style: none;
 }
 
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.add-cards-button {
+  background-color: #89abe3ff;
+  border: none;
+  border-radius: 10px;
+  color: #fcf6f5ff;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: 'Permanent Marker';
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-around;
+}
+
 .logo {
   position: absolute;
   top: 1em;
   left: 0.7em;
   font-family: 'Permanent Marker', cursive;
   font-size: 28px;
-  width: 10%;
   color: #fcf6f5ff;
 }
 
@@ -53,18 +75,14 @@ nav {
 }
 
 .card {
-  border: 10px solid black;
   padding: 30px;
+  box-shadow: 0 0 3px #89abe3ff;
   margin: 20px auto;
   width: 30%;
-}
-
-.card:hover .card-answer {
-  visibility: visible;
+  font-family: 'Patrick Hand', sans-serif;
 }
 
 .card-answer {
-  visibility: hidden;
   color: green;
 }
 
