@@ -1,4 +1,4 @@
-#flashy
+# Flashy
 
 Keep your studies simple using this flash card app.
 
